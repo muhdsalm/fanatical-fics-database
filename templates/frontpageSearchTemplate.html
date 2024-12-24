@@ -1,0 +1,11 @@
+{{ range .Result }}
+<div id="story">
+  <div class="story">
+    <a class="lusitana-bold storytitle"
+      href="/episode/{{if (ne .EpisodeNumber 0)}}{{.EpisodeNumber}}{{else}}{{oid .RawId}}{{end}}?search={{$.SearchTerm}}"
+      style="color: black; text-decoration: none;">{{if
+      (ne .EpisodeNumber 0)}}{{.EpisodeNumber}}. {{end}}{{.EpisodeTitle}}</a>
+    <p>{{.EpisodeSummary}}</p>
+  </div>
+</div>
+{{ end }}

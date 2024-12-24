@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>The Fanatical Fics Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+
+  <style>
+    .lusitana-regular {
+      font-family: "Lusitana", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .lusitana-bold {
+      font-family: "Lusitana", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    .montserrat-regular {
+      font-family: "Montserrat", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .navbar {
+      font-size: 1.5rem;
+      position: absolute;
+      top: 2rem;
+      display: flex;
+      flex-directon: row;
+      left: 2rem;
+      right: 4rem;
+      width: 100% - 6rem;
+      justify-content: space-between;
+
+    }
+
+    .navbarleft {
+      left: 2rem;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbarright {
+      font-size: 1rem;
+      align-items: center;
+      visibility: visible;
+    }
+
+    @media (max-width: 800px) {
+      .navbarright {
+        visibility: hidden;
+        width: 0;
+      }
+
+      .navbar {
+        justify-content: center;
+        text-align: center;
+        top: 0rem;
+      }
+
+      .navbarleft {
+        text-align: center;
+        width: 100%
+      }
+
+      .story {
+        padding-left: 5%;
+        padding-right: 5%;
+        width: 90%
+      }
+    }
+
+    .story {
+      width: 60%;
+      font-size: 1.1rem;
+      padding-left: 20%;
+      padding-right: 20%;
+      text-decoration: none;
+      color: black;
+    }
+
+    #stories {
+      margin-top: 10rem;
+    }
+
+    .storytitle {
+      font-size: 2rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .sectiontitle {
+      font-size: 1.5rem;
+      width: 100%;
+    }
+
+    .subsectiontitle {
+      font-size: 1.3rem;
+      width: 100%;
+    }
+
+    .warning {
+      padding-top: -1rem;
+      padding-top: 1;
+      background-color: #FFFF88;
+      width: 100%;
+      padding-left: 1.5rem;
+      align-content: center;
+      align-items: center;
+      display: flex;
+      border-radius: 5px;
+      padding-top: 0%;
+    }
+
+    li+li {
+      margin-top: 10px;
+    }
+
+    td {
+      padding-top: 10px;
+    }
+  </style>
+</head>
+
+<body class="lusitana-regular">
+  <div class="navbar">
+    <div class="navbarleft">
+      <a href="/" style="color: black; text-decoration: none;">The Fanatical Fics Database</a>
+    </div>
+    <div class="navbarright">
+      Fan project. Not affiliated with the podcast
+    </div>
+  </div>
+
+  <div id="stories" class="story">
+    <p class="lusitana-bold storytitle">{{.EpisodeTitle}}</p>
+
+    {{ if (ne .Warning "")}}
+    <div class="warning">
+      <p>
+        <font class="lusitana-bold" style="margin-top: 0%">Warning: </font>{{.Warning}}
+      </p>
+    </div>
+    <br>
+    {{ end }}
+
+    {{range .Segments}}
+    <p class="lusitana-bold sectiontitle">{{.Title}}</p>
+    {{ if (ne .Clues.Title "")}}
+    <p class="lusitana-bold subsectiontitle">Clues</p>
+    <table style="width: 100%; margin-top: -10px;">
+      <tr>
+        <td style="width: 10%;">
+          <font class="lusitana-bold">Title:</font>
+        </td>
+        <td>{{.Clues.Title}}</td>
+      </tr>
+      <tr>
+        <td>
+          <font class="lusitana-bold">Genre:</font>
+        </td>
+        <td>{{ .Clues.Genre }}</td>
+      </tr>
+      {{if (ne .Clues.TimePeriod "")}}
+      <tr>
+        <td>
+          <font class="lusitana-bold">Genre:</font>
+        </td>
+        <td>{{ .Clues.Genre }}</td>
+      </tr>
+      {{end}}
+    </table>
+    {{end}}
+    {{if (ne (len .Predictions) 0)}}
+    <p class="lusitana-bold subsectiontitle">Predictions</p>
+    <table style="width: 100%; margin-top: -10px;">
+      {{range .Predictions}}
+      <tr>
+        <td style="width: 80%;">{{.Prediction}}</td>
+        <td style="color: {{if .Correct}}green{{else}}red{{end}};">{{if .Correct}}Correct{{else}}Incorrect{{end}}</td>
+      </tr>
+      {{end}}
+    </table>
+    {{end}}
+    {{if (or (ne .Clues.Title "") (ne (len .Predictions ) 0))}}
+    <p class="lusitana-bold subsectiontitle">Events</p>
+    {{end}}
+    <ul>
+      {{range .Notes}}
+      <li>{{.}}</li>
+      {{end}}
+    </ul>
+    <br>
+    {{ end }}
+  </div>
+</body>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search)
+  const searchParams = urlParams.get("search")
+
+  if (searchParams != null) {
+    window.find(searchParams)
+  }
+</script>
+
+</html>

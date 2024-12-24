@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>The Fanatical Fics Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+
+  <style>
+    .lusitana-regular {
+      font-family: "Lusitana", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .lusitana-bold {
+      font-family: "Lusitana", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    .montserrat-regular {
+      font-family: "Montserrat", serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .navbar {
+      font-size: 1.5rem;
+      position: absolute;
+      top: 2rem;
+      display: flex;
+      flex-directon: row;
+      left: 2rem;
+      right: 4rem;
+      width: 100% - 6rem;
+      justify-content: space-between;
+
+    }
+
+    .navbarleft {
+      left: 2rem;
+      align-items: center
+    }
+
+    .navbarcenter {
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      top: -0.5rem;
+      width: 40%;
+      height: 100%;
+    }
+
+    #searchbar {
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      width: 40%;
+      padding-top: 0%;
+      border-radius: 100rem;
+      border: 1px solid gray;
+      height: 1.5rem;
+      outline: 0px solid transparent;
+      font-family: "Lusitana", serif;
+      padding-left: 1rem;
+    }
+
+    #searchbar:focus {
+      outline: 0px solid transparent;
+      animation: grow 0.05s;
+      animation-timing-function: linear;
+      border: 2px solid black;
+      left: 0%;
+      right: 0%;
+      width: 100%;
+      height: 2rem;
+      top: -0.5rem;
+      font-size: 1.1rem;
+      padding-left: 2rem;
+    }
+
+    @keyframes grow {
+      0% {
+        width: 40%;
+        left: 30%;
+        right: 30%;
+        height: 1.5rem;
+        top: 0rem;
+      }
+
+      100% {
+        width: 100%;
+        left: 0%;
+        right: 0%;
+        height: 2rem;
+        top: -0.5rem;
+      }
+    }
+
+    .navbarright {
+      font-size: 1rem;
+      visibility: visible;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .navbarright {
+        visibility: hidden;
+        width: 0;
+      }
+
+      .navbar {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .navbarleft {
+        text-align: center;
+        width: 100%
+      }
+
+      .story {
+        padding-left: 5%;
+        padding-right: 5%;
+        width: 90%
+      }
+
+      #searchbar {
+        visibility: hidden;
+      }
+    }
+
+    .story {
+      width: 60%;
+      font-size: 1.1rem;
+      padding-left: 20%;
+      padding-right: 20%;
+      text-decoration: none;
+      color: black;
+    }
+
+    #stories {
+      margin-top: 10rem;
+    }
+
+    .storytitle {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+
+<body class="lusitana-regular">
+  <div class="navbar">
+    <div class="navbarleft">
+      <a href="/" style="color: black; text-decoration: none;">The Fanatical Fics Database</a>
+    </div>
+    <form hx-get="/search" hx-target="#stories">
+      <input id="searchbar" placeholder="Search content of episodes" name="q" type="text"></input>
+    </form>
+    <div class="navbarright">
+      Fan project. Not affiliated with the podcast
+    </div>
+  </div>
+
+  <div id="stories" hx-get="/episode-list" hx-trigger="load">
+  </div>
+</body>
+
+</html>

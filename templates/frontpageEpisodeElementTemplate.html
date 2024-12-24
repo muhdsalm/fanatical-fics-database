@@ -1,0 +1,15 @@
+{{ range . }}
+<div id="story">
+  <div class="story">
+    <a class="lusitana-bold storytitle"
+      href="/episode/{{if (ne .EpisodeNumber 0)}}{{.EpisodeNumber}}{{else}}{{oid .RawId}}{{end}}"
+      style="color: black; text-decoration: none;">{{if
+      (ne .EpisodeNumber 0)}}{{.EpisodeNumber}}. {{end}}{{.EpisodeTitle}}</a>
+    <p>{{.EpisodeSummary}}</p>
+  </div>
+</div>
+{{ end }}
+{{if (eq (len .) 10)}}
+<p style="width: 100%; text-align: center; cursor: pointer;" class="montserrat-regular" hx-get="/episode-list"
+  hx-trigger="click" hx-swap="beforeend" hx-target="#stories" id="showmore"> Show more </p>
+{{end}}

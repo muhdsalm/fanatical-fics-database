@@ -8,8 +8,5 @@
     <p>{{.EpisodeSummary}}</p>
   </div>
 </div>
+<br>
 {{ end }}
-{{if (eq (len .) 10)}}
-<p style="width: 100%; text-align: center; cursor: pointer;" class="montserrat-regular" hx-get="/episode-list"
-  hx-trigger="click" hx-swap="beforeend" hx-target="#stories" id="showmore"> Show more </p>
-{{end}}

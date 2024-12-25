@@ -130,7 +130,11 @@ func (f FanaticalDB) GetEpisode(id string) (Episode, error) {
 
 func (f FanaticalDB) searchEpisode(searchTerm string) ([]EpisodeSummary, error) {
 	var episodeList []EpisodeSummary
-	cursor, err := f.episodesCollection.Find(context.TODO(), bson.D{{"segments.notes", primitive.Regex{Pattern: searchTerm, Options: "i"}}})
+	// cursor, err := f.episodesCollection.Find(context.TODO(), bson.D{{"segments.notes", primitive.Regex{Pattern: searchTerm, Options: "i"}}})
+	cursor, err := f.episodesCollection.Find(context.TODO(), bson.D{{"$or", bson.A{
+		bson.D{{"segments.notes", primitive.Regex{Pattern: searchTerm, Options: "i"}}},
+		bson.D{{"episodetitle", primitive.Regex{Pattern: searchTerm, Options: "i"}}},
+	}}})
 	if err != nil {
 		return []EpisodeSummary{}, err
 	}

@@ -90,10 +90,10 @@ type Clues struct {
 }
 
 type Segment struct {
-	Title       string       `json:"title"`
-	Clues       Clues        `json:"clues"`
-	Predictions []Prediction `json:"predictions"`
-	Notes       []string     `json:"notes"`
+	Title       string          `json:"title"`
+	Clues       Clues           `json:"clues"`
+	Predictions []Prediction    `json:"predictions"`
+	Notes       []template.HTML `json:"notes"`
 }
 
 type Episode struct {
